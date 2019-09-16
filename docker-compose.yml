@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+    lambda:
+        build: ./lambda
+        volumes:
+            - ./lambda:/app
+        ports:
+            - 3100:31000
+        command: npm run start
+
+    # react:
+    #     build: ./react
+    #     volumes:
+    #         - ./react:/app
+    #     ports:
+    #         - 3110:3110
+    #     command: npm run start
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch
+        ports:
+            - "9201:9201"
+        environment:
+            - xpack.security.enabled=false
+            - xpack.monitoring.enabled=false
+            - xpack.ml.enabled=false
+            - xpack.graph.enabled=false
+            - xpack.watcher.enabled=false
+            - ES_JAVA_OPTS=-Xmx256m -Xms256m
+
+    kibana:
+        image: docker.elastic.co/kibana
+        ports:
+            - "5602:5602"
+        depends_on:
+            - elasticsearch
+
+volumes:
+    esdata:

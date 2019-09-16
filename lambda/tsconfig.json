@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "sourceMap": false,
+    "target": "es6",
+    "lib": ["esnext", "es2015"],
+    "moduleResolution": "node"
+  },
+  "exclude": ["node_modules"]
+}
