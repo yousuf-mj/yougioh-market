@@ -1,0 +1,19 @@
+{
+    "extends": ["airbnb", "prettier", "prettier/react"],
+    "plugins": ["react", "prettier", "@typescript-eslint", "mocha"],
+    "rules": {
+        "prettier/prettier": "error",
+        "max-len": ["error", 80],
+        "indent": ["warn", 4],
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "off"
+    },
+    "parser": "@typescript-eslint/parser",
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["src"]
+            }
+        }
+    }
+}
