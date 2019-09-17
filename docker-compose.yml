@@ -6,9 +6,10 @@ services:
     volumes:
       - ./lambda:/app
     ports:
-      - 3100:31000
+      - 3100:3100
     command: npm run start
 
+  # To be added when front end gets built
   # react:
   #     build: ./react
   #     volumes:
@@ -17,21 +18,32 @@ services:
   #         - 3110:3110
   #     command: npm run start
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch
-    ports:
-      - "9201:9201"
+  db:
+    image: mysql:5.6
+    volumes:
+      - dbdata:/var/lib/mysql
     environment:
-      - xpack.security.enabled=false
-      - xpack.monitoring.enabled=false
-      - xpack.ml.enabled=false
-      - xpack.graph.enabled=false
-      - xpack.watcher.enabled=false
-      - ES_JAVA_OPTS=-Xmx256m -Xms256m
+      - "MYSQL_DATABASE=ygo"
+      - "MYSQL_USER=ygo"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+      - "3309:3306"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
+    ports:
+      - "9200:9200"
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
 
   kibana:
-    image: docker.elastic.co/kibana
+    image: docker.elastic.co/kibana/kibana:7.3.2
     ports:
-      - "5602:5602"
+      - "5601:5601"
     depends_on:
       - elasticsearch
+
+volumes:
+  dbdata:
