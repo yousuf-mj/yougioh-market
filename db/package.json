@@ -1,0 +1,13 @@
+{
+    "name": "db-migrations",
+    "version": "1.0.0",
+    "scripts": {
+        "migrate": "./bin/migrate",
+        "docker": "./bin/awaitConnection && npm run migrate"
+    },
+    "dependencies": {
+        "knex": "0.15.2",
+        "mysql2": "^1.6.1"
+    },
+    "devDependencies": {}
+}

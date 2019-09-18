@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIR=$(/usr/bin/dirname $0)
+DIR=$(bash -c "cd $DIR/..; pwd")
+
+knex migrate:make $1

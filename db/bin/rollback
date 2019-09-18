@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Rolling back migrations"
+
+DIR=$(/usr/bin/dirname $0)
+DIR=$(bash -c "cd $DIR/..; pwd")
+
+if [ -z "$KNEX_ENV" ]; then
+    KNEX_ENV=development
+fi
+
+knex migrate:rollback --env $KNEX_ENV

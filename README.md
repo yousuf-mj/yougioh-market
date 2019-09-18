@@ -4,7 +4,7 @@
 
 This is an application to monitor and track the prices of yugioh cards on ebay (uk).
 The idea is to have a database of all current cards, data will be provided from
-[https://db.ygoprodeck.com/api-guide/](ygoprodeck). They have an api with all cards and sets
+[ygoprodeck](https://db.ygoprodeck.com/api-guide/). They have an api with all cards and sets
 
 In conjunction with Ebay developer API, the thought process is to make calls using card
 set ids in order to search to find the lowest,average,highest price. This data will be stored
@@ -23,9 +23,25 @@ The containers that will be set up are the following
 | Container     | Port |
 | ------------- | ---- |
 | lambda        | 3100 |
-| mysql         | 3306 |
+| mysql         | 3309 |
 | elasticsearch | 9200 |
 | kibana        | 5601 |
+
+## DB
+
+Migrations make use of [knex](https://knexjs.org) migration files and are maintained within the `migrations` directory.
+
+To create or run a migration, you can use the following helper scripts,
+
+```bash
+# Create a migration file
+$ ./bin/create create-mytable
+
+# Run the migrations
+$ ./bin/migrate
+```
+
+N.B. The migration scripts are run during `docker-compose up`
 
 ## Endpoints
 

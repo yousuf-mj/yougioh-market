@@ -30,6 +30,18 @@ services:
     ports:
       - "3309:3306"
 
+  knex:
+    build: ./db
+    depends_on:
+      - db
+    volumes:
+      - ./db:/app
+      - /app/node_modules
+    environment:
+      - "DB_HOST=db"
+      - "DB_PORT=3306"
+    command: npm run docker
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
     ports:

@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+
+const knex = require("knex");
+const connectionConfig = require("../knexfile")[
+    process.env.KNEX_ENV || "development"
+];
+
+const ATTEMPT_LIMIT = process.env.ATTEMPT_LIMIT || 16;
+
+async function attemptConnect() {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    const db = knex(connectionConfig);
+    const result = await db.select(db.raw("'CONNECTED' as CONNECTED")).first();
+    db.destroy();
+    return result.CONNECTED;
+}
+
+async function awaitConnect() {
+    let attempt = 0;
+    let success = false;
+    while (!success && attempt < ATTEMPT_LIMIT) {
+        try {
+            const result = await attemptConnect();
+            success = result === "CONNECTED";
+        } catch (err) {
+            console.log("DB connection error - retrying");
+        }
+        ++attempt;
+    }
+
+    return success
+        ? "DB connection established"
+        : new Error("Unable to establish DB connection");
+}
+
+awaitConnect()
+    .then(message => {
+        console.log(message);
+        process.exit(0);
+    })
+    .catch(err => {
+        console.error(err);
+        process.exit(1);
+    });
