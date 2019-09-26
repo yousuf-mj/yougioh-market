@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { APIGatewayProxyResult } from 'aws-lambda';
 import * as sinon from 'sinon';
 
-import { all } from '../../../src/handlers/ygodeck/get';
+import { all } from '../../../src/handlers/ygodeck/sync';
 import * as ygoApi from '../../../src/services/ygoDeckApi';
 
 import ApiGatewayProxyEventFactory from '../../ApiGatewayProxyEventFactory';
@@ -32,6 +32,4 @@ describe('Ygo Deck API', () => {
         expect(result.results).to.be.an('Array');
         expect(response.statusCode).to.equal(200);
     });
-
-    afterEach(() => {});
 });

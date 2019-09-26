@@ -38,12 +38,12 @@ functions:
           cors: true
 
   ygoDeckGetAll:
-    handler: build/handlers/ygodeck/get.all
+    handler: build/handlers/ygodeck/sync.all
     package:
       include:
-        - build/handlers/ygodeck/get.*
+        - build/handlers/ygodeck/sync.*
     events:
       - http:
           path: /ygodeck/getAll
-          method: get
+          method: post
           cors: true

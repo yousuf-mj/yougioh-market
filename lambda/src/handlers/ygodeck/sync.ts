@@ -13,9 +13,23 @@ export const all: APIGatewayProxyHandler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
-        const results: AxiosResponse = await ygoApi(Env.ygoDeck.url, {
-            params: { name: 'Dark Magician' }
-        });
+        const results: AxiosResponse = await ygoApi(Env.ygoDeck.url);
+
+        const message = { success: true, results: results.data };
+
+        return responseSuccess(message, 200);
+    } catch (error) {
+        console.log(error);
+
+        return responseError(error, 400);
+    }
+};
+
+export const card: APIGatewayProxyHandler = async (
+    event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
+    try {
+        const results: AxiosResponse = await ygoApi(Env.ygoDeck.url);
 
         const message = { success: true, results: results.data };
 
