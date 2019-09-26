@@ -36,6 +36,7 @@ functions:
           path: /status
           method: get
           cors: true
+
   ygoDeckGetAll:
     handler: build/handlers/ygodeck/get.all
     package:

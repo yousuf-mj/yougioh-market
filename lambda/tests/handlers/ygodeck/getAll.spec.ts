@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { APIGatewayProxyResult } from 'aws-lambda';
-import sinon from 'sinon';
+import * as sinon from 'sinon';
 
 import { all } from '../../../src/handlers/ygodeck/get';
 import * as ygoApi from '../../../src/services/ygoDeckApi';
@@ -10,26 +10,27 @@ import ApiGatewayProxyEventFactory from '../../ApiGatewayProxyEventFactory';
 describe('Ygo Deck API', () => {
     it('should return all cards', async () => {
         const mockResponse = require('../../fixtures/ygodeck/allCardsMock.json');
-        const apiGatewayEventMock = ApiGatewayProxyEventFactory.create(
-            'GET',
-            '/ygodeck/all'
-        );
-
         const stub = sinon.stub(ygoApi, 'default').resolves({
             data: mockResponse
         });
 
-        const result: APIGatewayProxyResult = (await all(
+        const apiGatewayEventMock = ApiGatewayProxyEventFactory.create(
+            'GET',
+            '/ygodeck/getAll'
+        );
+
+        const response: APIGatewayProxyResult = (await all(
             apiGatewayEventMock,
             null,
-
             null
         )) as APIGatewayProxyResult;
 
-        // expect(result.body).to.be.an('Array');
+        const result = JSON.parse(response.body);
+
         stub.restore();
         sinon.assert.called(stub);
-        expect(result.statusCode).to.equal(200);
+        expect(result.results).to.be.an('Array');
+        expect(response.statusCode).to.equal(200);
     });
 
     afterEach(() => {});
