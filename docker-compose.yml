@@ -1,61 +1,61 @@
 version: "3"
 
 services:
-  lambda:
-    build: ./lambda
-    volumes:
-      - ./lambda:/app
-    ports:
-      - 3100:3100
-    command: npm run start
+    lambda:
+        build: ./lambda
+        volumes:
+            - ./lambda:/app
+        ports:
+            - 3100:3100
+        command: npm run dev
 
-  # To be added when front end gets built
-  # react:
-  #     build: ./react
-  #     volumes:
-  #         - ./react:/app
-  #     ports:
-  #         - 3110:3110
-  #     command: npm run start
+    # To be added when front end gets built
+    # react:
+    #     build: ./react
+    #     volumes:
+    #         - ./react:/app
+    #     ports:
+    #         - 3110:3110
+    #     command: npm run start
 
-  db:
-    image: mysql:5.6
-    volumes:
-      - dbdata:/var/lib/mysql
-    environment:
-      - "MYSQL_DATABASE=ygo"
-      - "MYSQL_USER=ygo"
-      - "MYSQL_PASSWORD=secret"
-      - "MYSQL_ROOT_PASSWORD=secret"
-    ports:
-      - "3309:3306"
+    db:
+        image: mysql:5.6
+        volumes:
+            - dbdata:/var/lib/mysql
+        environment:
+            - "MYSQL_DATABASE=ygo"
+            - "MYSQL_USER=ygo"
+            - "MYSQL_PASSWORD=secret"
+            - "MYSQL_ROOT_PASSWORD=secret"
+        ports:
+            - "3309:3306"
 
-  knex:
-    build: ./db
-    depends_on:
-      - db
-    volumes:
-      - ./db:/app
-      - /app/node_modules
-    environment:
-      - "DB_HOST=db"
-      - "DB_PORT=3306"
-    command: npm run docker
+    knex:
+        build: ./db
+        depends_on:
+            - db
+        volumes:
+            - ./db:/app
+            - /app/node_modules
+        environment:
+            - "DB_HOST=db"
+            - "DB_PORT=3306"
+        command: npm run docker
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
-    ports:
-      - "9200:9200"
-    environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "discovery.type=single-node"
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
+        ports:
+            - "9200:9200"
+        environment:
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "discovery.type=single-node"
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.3.2
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.3.2
+        ports:
+            - "5601:5601"
+        depends_on:
+            - elasticsearch
 
 volumes:
-  dbdata:
+    dbdata:

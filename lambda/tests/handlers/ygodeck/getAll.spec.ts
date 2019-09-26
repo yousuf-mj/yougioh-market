@@ -1,6 +1,10 @@
 import { expect } from 'chai';
-import { APIGatewayProxyResult, Context } from 'aws-lambda';
-import { getAll } from '../../../src/handlers/ygodeck/get';
+import { APIGatewayProxyResult } from 'aws-lambda';
+import sinon from 'sinon';
+
+import { all } from '../../../src/handlers/ygodeck/get';
+import * as ygoApi from '../../../src/services/ygoDeckApi';
+
 import ApiGatewayProxyEventFactory from '../../ApiGatewayProxyEventFactory';
 
 describe('Ygo Deck API', () => {
@@ -11,14 +15,22 @@ describe('Ygo Deck API', () => {
             '/ygodeck/all'
         );
 
-        apiGatewayEventMock.body = JSON.stringify(mockResponse);
+        const stub = sinon.stub(ygoApi, 'default').resolves({
+            data: mockResponse
+        });
 
-        const result: APIGatewayProxyResult = (await getAll(
+        const result: APIGatewayProxyResult = (await all(
             apiGatewayEventMock,
             null,
+
             null
         )) as APIGatewayProxyResult;
 
-        expect(result.body).to.be.an('Array');
+        // expect(result.body).to.be.an('Array');
+        stub.restore();
+        sinon.assert.called(stub);
+        expect(result.statusCode).to.equal(200);
     });
+
+    afterEach(() => {});
 });
