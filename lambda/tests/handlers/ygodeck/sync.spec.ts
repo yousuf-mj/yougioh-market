@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { APIGatewayProxyResult } from 'aws-lambda';
 import * as sinon from 'sinon';
 
-import { all } from '../../../src/handlers/ygodeck/sync';
+import { all, card } from '../../../src/handlers/ygodeck/sync';
 import * as ygoApi from '../../../src/services/ygoDeckApi';
 
 import ApiGatewayProxyEventFactory from '../../ApiGatewayProxyEventFactory';
