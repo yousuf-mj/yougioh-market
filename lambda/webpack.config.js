@@ -34,6 +34,7 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     externals: {
-        'aws-sdk': 'aws-sdk'
+        'aws-sdk': 'aws-sdk',
+        knex: 'commonjs knex'
     }
 };
