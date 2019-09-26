@@ -13,6 +13,7 @@
         "ejs-loader": "^0.3.3",
         "ejs-webpack-loader": "^2.2.2",
         "jsonschema": "^1.2.4",
+        "knex": "^0.19.4",
         "serverless": "^1.52.0",
         "serverless-dependson-plugin": "^1.1.2"
     },
