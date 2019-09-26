@@ -1,16 +1,13 @@
 const fs = require('fs');
 
 interface EnvConfig {
-    ygoDeck: ygoDeck;
-    ebay: ebay;
-}
-
-interface ygoDeck {
-    url: string;
-}
-
-interface ebay {
-    apiKey: string;
+    ygoEndpoint: string;
+    ebayApi: string;
+    mysqlHost: string;
+    mysqlPort: number;
+    mysqlDb: string;
+    mysqlUsername: string;
+    mysqlPassword: string;
 }
 
 const Env: EnvConfig = JSON.parse(fs.readFileSync('./env.json'));

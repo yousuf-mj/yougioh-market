@@ -13,7 +13,7 @@ export const all: APIGatewayProxyHandler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
-        const results: AxiosResponse = await ygoApi(Env.ygoDeck.url);
+        const results: AxiosResponse = await ygoApi(Env.ygoEndpoint);
 
         const message = { success: true, results: results.data };
 
@@ -29,7 +29,7 @@ export const card: APIGatewayProxyHandler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
-        const results: AxiosResponse = await ygoApi(Env.ygoDeck.url);
+        const results: AxiosResponse = await ygoApi(Env.ygoEndpoint);
 
         const message = { success: true, results: results.data };
 
