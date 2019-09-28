@@ -5,10 +5,12 @@ const knex = Db.knex();
 
 export const connect = async () => {
     const all = await knex<Cards>('cards').select('*');
-
-    console.log(all);
 };
 
-export const create = async (cardData: any) => {
+export const create = async (cardData: Cards) => {
+    return await knex<Cards>('cards').insert(cardData);
+};
+
+export const createBulk = async (cardData: any) => {
     return await knex<Cards>('cards').insert(cardData);
 };
