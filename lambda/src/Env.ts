@@ -2,6 +2,7 @@ const fs = require('fs');
 
 interface EnvConfig {
     ygoEndpoint: string;
+    ygoSetEndpoint: string;
     ebayApi: string;
     mysqlHost: string;
     mysqlPort: number;
