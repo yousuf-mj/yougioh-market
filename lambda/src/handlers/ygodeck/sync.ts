@@ -63,7 +63,11 @@ export const sets: APIGatewayProxyHandler = async (
 ): Promise<APIGatewayProxyResult> => {
     try {
         const ygoSets = await ygoApi(Env.ygoSetEndpoint);
-        const setData = JSON.parse(ygoSets.map()
+
+        const setData = ygoSets.data.map(item => {
+            return { name: item['Set Name'] };
+        });
+        console.log(setData);
 
         const createNew = await createBulkSets(setData);
 

@@ -10,16 +10,6 @@ import * as ygoApi from '../../../src/services/ygoDeckApi';
 import ApiGatewayProxyEventFactory from '../../ApiGatewayProxyEventFactory';
 
 describe('Ygo Sync', () => {
-    let db;
-
-    beforeEach(() => {
-        db = knex({
-            client: 'mysql2'
-        });
-
-        mockDb.mock(db);
-    });
-
     it('should return all cards', async () => {
         const mockResponse = require('../../fixtures/ygodeck/allCardsMock.json');
         const stub = sinon.stub(ygoApi, 'default').resolves({
@@ -64,10 +54,5 @@ describe('Ygo Sync', () => {
 
         stub.restore();
         sinon.assert.called(stub);
-        expect(response.statusCode).to.equal(200);
-    });
-
-    afterEach(() => {
-        mockDb.unmock(db);
     });
 });
