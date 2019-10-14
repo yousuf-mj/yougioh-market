@@ -3,5 +3,5 @@ export default interface Cards {
     name: string;
     type: string;
     description: string;
-    archetype: string;
+    archetype?: string;
 }
