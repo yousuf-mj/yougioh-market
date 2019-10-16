@@ -36,3 +36,24 @@ functions:
           path: /status
           method: get
           cors: true
+
+  ygoDeckGetAll:
+    handler: build/handlers/ygodeck/sync.all
+    package:
+      include:
+        - build/handlers/ygodeck/sync.*
+    events:
+      - http:
+          path: /ygodeck/getAll
+          method: post
+          cors: true
+
+  ygoDeckSyncSets:
+    handler: build/handlers/ygodeck/sync.sets
+    package:
+      include:
+        - build/handlers/ygodeck/sync.*
+    events:
+      - http:
+          path: /ygodeck/sync/sets
+          method: post
