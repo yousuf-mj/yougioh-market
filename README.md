@@ -1,7 +1,8 @@
 # yougioh-market
 
-## Summary
 
+## Summary
+ite
 This is an application to monitor and track the prices of yugioh cards on ebay (uk).
 The idea is to have a database of all current cards, data will be provided from
 [ygoprodeck](https://db.ygoprodeck.com/api-guide/). They have an api with all cards and sets
