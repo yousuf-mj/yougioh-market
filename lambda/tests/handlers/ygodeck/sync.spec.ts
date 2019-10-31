@@ -1,14 +1,12 @@
 import { expect } from 'chai';
 import { APIGatewayProxyResult } from 'aws-lambda';
 import * as sinon from 'sinon';
-import * as knex from 'knex';
-import * as mockDb from 'mock-knex';
 
-import { all, sets, card } from '../../../src/handlers/ygodeck/sync';
+import { syncAll, sets } from '../../../src/handlers/ygodeck/sync';
 import * as ygoApi from '../../../src/services/ygoDeckApi';
 
 import * as SetRepository from '../../../src/repositories/SetRespository';
-import * as CardRespository from '../../../src/repositories/CardRespository';
+import * as CardRepository from '../../../src/repositories/CardRepository';
 import ApiGatewayProxyEventFactory from '../../ApiGatewayProxyEventFactory';
 
 describe('Ygo Sync', () => {
@@ -40,7 +38,7 @@ describe('Ygo Sync', () => {
         expect(response.statusCode).to.equal(200);
     });
 
-    it('should sync all cards and sets into the database', async () => {
+    it.only('should sync all cards and sets into the database', async () => {
         const mockResponse = require('../../fixtures/ygodeck/allCardsMock.json');
         const stub = sinon.stub(ygoApi, 'default').resolves({
             data: mockResponse
@@ -48,21 +46,28 @@ describe('Ygo Sync', () => {
 
         const apiGatewayEventMock = ApiGatewayProxyEventFactory.create(
             'POST',
-            '/ygodeck/sync/card'
+            '/ygodeck/sync/cards'
         );
 
-        const create = sinon.stub(CardRespository, 'create').resolves(true);
+        const create = sinon.stub(CardRepository, 'create').resolves(true);
+        const setBulk = sinon.stub(SetRepository, 'createBulk').resolves(true);
 
-        const response: APIGatewayProxyResult = (await card(
+        const response: APIGatewayProxyResult = (await syncAll(
             apiGatewayEventMock,
             null,
             null
         )) as APIGatewayProxyResult;
 
         stub.restore();
-        sinon.assert.called(stub);
         create.restore();
+        setBulk.restore();
+
+        sinon.assert.called(stub);
+        sinon.assert.called(create);
+        sinon.assert.called(setBulk);
 
         expect(response.statusCode).to.equal(200);
     });
+
+    it('should sync a card into the database', () => {});
 });

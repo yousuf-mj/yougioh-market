@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios';
 
 import Env from '../../Env';
 import ygoApi from '../../services/ygoDeckApi';
-import { create as createCards } from '../../repositories/CardRespository';
+import { create as createCards } from '../../repositories/CardRepository';
 import {
     createBulk as createBulkSets,
     findAll
@@ -88,15 +88,11 @@ export const syncAll: APIGatewayProxyHandler = async (
     try {
         const allCards = await ygoApi(Env.ygoEndpoint);
 
-        const setData = allCards.data.map(item => {
-            return { name: item['Set Name'] };
+        const c = allCards.data.forEach(async item => {
+            await cardSingle(item);
         });
 
-        const createNew = await createBulkSets(setData);
-
-        if (!createNew) {
-            return Promise.reject({ error: 'Unable to sync sets' });
-        }
+        // const setIds = await findSetsInfo(setData);
 
         const message = { success: true };
 
@@ -106,4 +102,14 @@ export const syncAll: APIGatewayProxyHandler = async (
 
         return responseError(error, 400);
     }
+};
+
+const findSetsInfo = async setData => {
+    console.log(setData);
+};
+
+const cardSingle = async cardData => {
+    console.trace(cardData);
+
+    const sets = cardData.sets;
 };
