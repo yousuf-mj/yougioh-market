@@ -3,16 +3,20 @@ import {
     APIGatewayProxyHandler,
     APIGatewayProxyResult
 } from 'aws-lambda';
-import { AxiosResponse } from 'axios';
 
 import Env from '../../Env';
 import ygoApi from '../../services/ygoDeckApi';
+import { responseSuccess, responseError } from '../../helpers/response';
+
 import { create as createCards } from '../../repositories/CardRepository';
 import {
     createBulk as createBulkSets,
     findAll
 } from '../../repositories/SetRespository';
-import { responseSuccess, responseError } from '../../helpers/response';
+
+import CardResponse from '../../types/CardResponse'
+import Set from '../../types/Set'
+
 import Cards from '../../types/Cards';
 
 export const all: APIGatewayProxyHandler = async (
@@ -108,8 +112,27 @@ const findSetsInfo = async setData => {
     console.log(setData);
 };
 
-const cardSingle = async cardData => {
-    console.trace(cardData);
+const cardSingle = async (cardData: CardResponse) => {
+    const sets = cardData.card_sets;
 
-    const sets = cardData.sets;
+    const {name, type, desc, archetype } = cardData;
+    const cardPayload: Cards = {
+        name, 
+        type, 
+        description: desc, 
+        archetype
+    };
+
+    const setResponse = sets.forEach(async item => {
+        return await setSingle(item)
+    })
+
+    try{
+        const cardResult = await createCards(cardPayload);
+
+    }
 };
+
+const setSingle = async set => {
+
+}

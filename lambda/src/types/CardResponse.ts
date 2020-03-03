@@ -5,29 +5,31 @@ export default interface CardResponse {
     desc: string;
     atk: string;
     def: string;
-    level: '4';
-    race: 'Aqua';
-    attribute: 'EARTH';
-    archetype: 'Utopia';
-    card_sets: [
-        {
-            set_name: '2013 Collectible Tins Wave 1';
-            set_code: 'CBLZ-EN007';
-            set_rarity: 'Common';
-            set_price: '0.85';
-        }
-    ];
-    card_images: [
-        {
-            id: '18865703';
-            image_url: 'https://storage.googleapis.com/ygoprodeck.com/pics/18865703.jpg';
-            image_url_small: 'https://storage.googleapis.com/ygoprodeck.com/pics_small/18865703.jpg';
-        }
-    ];
-    card_prices: {
-        cardmarket_price: '0.2';
-        tcgplayer_price: '0.16';
-        ebay_price: '0.99';
-        amazon_price: '7.10';
-    };
+    level: string;
+    race: string;
+    attribute: string;
+    archetype: string;
+    card_sets: cardSet[];
+    card_images: cardImages[];
+    card_prices: cardPrices;
+}
+
+export interface cardSet {
+    set_name: string;
+    set_code: string;
+    set_rarity: string;
+    set_price: string;
+}
+
+export interface cardImages {
+    id: string;
+    image_url: string;
+    image_url_small: string;
+}
+
+export interface cardPrices {
+    cardmarket_price: string;
+    tcgplayer_price: string;
+    ebay_price: string;
+    amazon_price: string;
 }
